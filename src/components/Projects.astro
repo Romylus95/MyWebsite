@@ -1,29 +1,226 @@
 ---
+// ── Add new projects here — they appear in the horizontal scroll automatically ──
+const projects = [
+  { title:'Project Alpha',   description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.', stack:['.NET 8','Azure','SQL Server','Docker'],          github:'https://github.com', live:null                  },
+  { title:'Project Beta',    description:'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.',                         stack:['ASP.NET Core','React','PostgreSQL','Redis'],    github:'https://github.com', live:'https://example.com' },
+  { title:'Project Gamma',   description:'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa.',                                                stack:['Blazor','Entity Framework','Azure DevOps'],     github:'https://github.com', live:null                  },
+  { title:'Project Delta',   description:'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione.',                                              stack:['C#','Microservices','RabbitMQ','Docker'],       github:'https://github.com', live:null                  },
+  { title:'Project Epsilon', description:'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel illum dolorem.',                                                      stack:['.NET','REST API','JWT','Swagger'],              github:'https://github.com', live:null                  },
+  { title:'Project Zeta',    description:'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.',                                                     stack:['SignalR','Vue.js','SQL Server'],                github:'https://github.com', live:'https://example.com' },
+];
+
+// Seeded heatmap (server-side, no JS needed)
+function rnd(n: number) { const x = Math.sin(n * 9301 + 49297) * 233280; return x - Math.floor(x); }
+const WEEKS = 18;
+const heatmap: number[][] = Array.from({ length: WEEKS }, (_, w) =>
+  Array.from({ length: 7 }, (_, d) => {
+    const r = rnd(w * 7 + d + 42) - ((d === 0 || d === 6) ? 0.15 : 0);
+    return r < 0.42 ? 0 : r < 0.60 ? 1 : r < 0.74 ? 2 : r < 0.87 ? 3 : 4;
+  })
+);
 ---
 
-<section id="projects" class="py-24 px-6">
-  <div class="max-w-6xl mx-auto">
+<section id="projects">
 
-    <div class="reveal flex items-center gap-4 mb-14">
-      <span class="font-mono text-accent text-sm">04.</span>
-      <h2 class="text-2xl font-bold text-text">Projects</h2>
-      <div class="flex-1 h-px bg-[var(--color-border)]"></div>
-    </div>
+  <!-- ══ MOBILE: single column grid ════════════════════════ -->
+  <div class="md:hidden py-24 px-6">
+    <div class="max-w-6xl mx-auto">
 
-    <div class="reveal flex flex-col items-center justify-center py-24 gap-6 text-center">
-      <div class="w-16 h-16 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] flex items-center justify-center">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-accent">
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-        </svg>
+      <div class="reveal flex items-center gap-4 mb-14">
+        <span class="font-mono text-accent text-sm">04.</span>
+        <h2 class="text-2xl font-bold text-text">Projects</h2>
+        <div class="flex-1 h-px bg-[var(--color-border)]"></div>
       </div>
-      <h3 class="text-xl font-semibold text-text">Coming Soon</h3>
-      <p class="text-muted text-sm max-w-sm leading-relaxed">
-        I'm currently putting together my project showcase. Check back soon!
-      </p>
-      <span class="font-mono text-xs text-accent border border-[var(--color-border)] px-3 py-1.5 rounded-full">
-        Under construction
-      </span>
+
+      <div class="stagger-container grid grid-cols-1 gap-5">
+        {projects.map(p => (
+          <div class="reveal project-card p-6 rounded-xl flex flex-col gap-4 group">
+            <div class="flex items-start justify-between">
+              <svg class="text-accent" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>
+              <div class="flex gap-3">
+                {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="text-muted hover:text-accent transition-colors"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>}
+                {p.live  && <a href={p.live}   target="_blank" rel="noopener noreferrer" aria-label="Live"   class="text-muted hover:text-accent transition-colors"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>}
+              </div>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-text font-semibold mb-2 group-hover:text-accent transition-colors">{p.title}</h3>
+              <p class="text-muted text-sm leading-relaxed">{p.description}</p>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2 border-t border-[var(--color-border)]">
+              {p.stack.map(t => <span class="text-xs font-mono text-muted">{t}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DESKTOP: horizontal overflow scroll ════════════════ -->
+  <div class="hidden md:block py-24">
+
+    <!-- Section header -->
+    <div class="max-w-6xl mx-auto px-6 mb-10">
+      <div class="reveal flex items-center gap-4">
+        <span class="font-mono text-accent text-sm">04.</span>
+        <h2 class="text-2xl font-bold text-text">Projects</h2>
+        <div class="flex-1 h-px bg-[var(--color-border)]"></div>
+      </div>
     </div>
 
+    <!-- Scrollable track (wheel events converted to horizontal scroll via JS) -->
+    <div id="h-scroll-track" class="flex items-stretch gap-6">
+
+      <!-- Intro panel with heatmap -->
+      <div class="shrink-0 w-56 flex flex-col justify-center pr-6 border-r border-[var(--color-border)]">
+        <p class="text-muted text-sm leading-relaxed mb-6">
+          A selection of things I&rsquo;ve built.
+          Scroll to explore &rarr;
+        </p>
+        <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-2">Contribution activity</p>
+        <div class="heatmap">
+          {heatmap.map(week => (
+            <div class="heatmap-col">
+              {week.map(val => <div class={`heatmap-cell heat-${val}`} />)}
+            </div>
+          ))}
+        </div>
+        <div class="flex items-center gap-1.5 mt-2">
+          <span class="text-[10px] text-muted font-mono">Less</span>
+          {[0,1,2,3,4].map(v => <div class={`heatmap-cell heat-${v}`} />)}
+          <span class="text-[10px] text-muted font-mono">More</span>
+        </div>
+      </div>
+
+      <!-- Project cards — add new projects to the array at the top of this file -->
+      {projects.map(p => (
+        <div class="project-card shrink-0 w-72 p-6 rounded-xl flex flex-col gap-4 group">
+          <div class="flex items-start justify-between">
+            <svg class="text-accent" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            <div class="flex gap-3">
+              {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="text-muted hover:text-accent transition-colors"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>}
+              {p.live  && <a href={p.live}   target="_blank" rel="noopener noreferrer" aria-label="Live"   class="text-muted hover:text-accent transition-colors"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>}
+            </div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-text font-semibold mb-2 group-hover:text-accent transition-colors">{p.title}</h3>
+            <p class="text-muted text-sm leading-relaxed">{p.description}</p>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-2 border-t border-[var(--color-border)]">
+            {p.stack.map(t => <span class="text-xs font-mono text-muted">{t}</span>)}
+          </div>
+        </div>
+      ))}
+
+    </div>
+
+    <!-- Custom scrollbar — wheel events only active when hovering this area -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div id="h-scrollbar-container" class="py-3">
+        <div id="h-scrollbar-track" class="w-full h-[2px] rounded-full" style="background: var(--color-border)">
+          <div id="h-scrollbar-thumb" class="h-full rounded-full" style="background: var(--color-accent); width: 30%;"></div>
+        </div>
+      </div>
+    </div>
   </div>
+
 </section>
+
+<script>
+  (function () {
+    var track = document.getElementById('h-scroll-track');
+    var thumb = document.getElementById('h-scrollbar-thumb');
+    var bar   = document.getElementById('h-scrollbar-track');
+    if (!track || !window.matchMedia('(min-width: 768px)').matches) return;
+
+    var targetX  = 0;
+    var currentX = 0;
+    var rafId    = 0;
+
+    function updateThumb() {
+      var scrollable = track.scrollWidth - track.clientWidth;
+      if (scrollable <= 0) { if (bar) bar.style.display = 'none'; return; }
+      var thumbRatio = track.clientWidth / track.scrollWidth;
+      var thumbW     = Math.max(thumbRatio * 100, 8);
+      var barW       = bar ? bar.clientWidth : 0;
+      var maxOffset  = barW - (barW * thumbRatio);
+      var offset     = (track.scrollLeft / scrollable) * maxOffset;
+      if (thumb) { thumb.style.width = thumbW + '%'; thumb.style.transform = 'translateX(' + offset + 'px)'; }
+    }
+
+    function tick() {
+      currentX += (targetX - currentX) * 0.1;
+      track.scrollLeft = currentX;
+      updateThumb();
+      if (Math.abs(targetX - currentX) > 0.5) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        track.scrollLeft = targetX;
+        updateThumb();
+        rafId = 0;
+      }
+    }
+
+    // Wheel over the cards area → horizontal scroll
+    // Only intercept when there is actual horizontal room in the scroll direction
+    track.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      var newTarget = Math.max(0, Math.min(maxScroll, targetX + e.deltaY * 1.5));
+      if (newTarget === targetX) return; // already at boundary — let page scroll through
+      e.preventDefault();
+      currentX = track.scrollLeft;
+      targetX  = newTarget;
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }, { passive: false });
+
+    window.addEventListener('load', updateThumb);
+    window.addEventListener('resize', updateThumb);
+  })();
+</script>
+
+<style>
+  .project-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 280px;
+  }
+  .project-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 32px color-mix(in srgb, var(--color-accent) 8%, transparent);
+  }
+
+  /* Desktop horizontal scroll track */
+  #h-scroll-track {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-left:  max(1.5rem, calc((100vw - 72rem) / 2));
+    padding-right: max(1.5rem, calc((100vw - 72rem) / 2));
+    padding-bottom: 0.5rem;
+  }
+  #h-scroll-track::-webkit-scrollbar { display: none; }
+
+  #h-scrollbar-thumb { transition: transform 0.05s linear; }
+
+  /* Heatmap */
+  .heatmap      { display: flex; gap: 2px; }
+  .heatmap-col  { display: flex; flex-direction: column; gap: 2px; }
+  .heatmap-cell { width: 10px; height: 10px; border-radius: 2px; transition: opacity 0.15s; }
+  .heatmap-cell:hover { opacity: 0.65; }
+  .heat-0 { background: var(--color-border); }
+  .heat-1 { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+  .heat-2 { background: color-mix(in srgb, var(--color-accent) 44%, transparent); }
+  .heat-3 { background: color-mix(in srgb, var(--color-accent) 66%, transparent); }
+  .heat-4 { background: color-mix(in srgb, var(--color-accent) 88%, transparent); }
+
+  /* Print: show normal flow */
+  @media print {
+    #h-scroll-track { overflow: visible; flex-wrap: wrap; }
+  }
+</style>
