@@ -1,0 +1,46 @@
+---
+---
+
+<section id="contact" class="py-24 px-6">
+  <div class="max-w-2xl mx-auto text-center">
+
+    <div class="reveal mb-3">
+      <span class="font-mono text-accent text-sm">05. What's Next?</span>
+    </div>
+
+    <h2 class="reveal text-3xl md:text-4xl font-bold text-text mb-5">
+      Get In Touch
+    </h2>
+
+    <p class="reveal text-muted leading-relaxed mb-10 text-sm md:text-base">
+      Whether you have a question, a project idea, or just want to connect —
+      I'm always happy to hear from you. Feel free to reach out and I'll get back to you as soon as I can.
+    </p>
+
+    <div class="reveal flex flex-col items-center gap-3">
+      <button
+        id="copy-email-btn"
+        class="px-7 py-3 bg-accent text-[#0a0f1e] font-semibold text-sm rounded-lg hover:opacity-90 active:scale-95 transition-all duration-150"
+      >
+        Copy Email Address
+      </button>
+      <span id="copy-email-hint" class="text-xs font-mono text-muted opacity-0 transition-opacity duration-300">
+        dmeliopoulos95@gmail.com copied!
+      </span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  var btn  = document.getElementById('copy-email-btn');
+  var hint = document.getElementById('copy-email-hint');
+  if (btn && hint) {
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText('dmeliopoulos95@gmail.com').then(function () {
+        hint.style.opacity = '1';
+        setTimeout(function () { hint.style.opacity = '0'; }, 2000);
+      });
+    });
+  }
+</script>

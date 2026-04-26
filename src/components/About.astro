@@ -1,0 +1,175 @@
+---
+// count: target number  suffix: appended after count  display: static override (skips animation)
+const facts = [
+  { label: 'Years of experience', count: 6,  suffix: '+', display: null },
+  { label: 'Projects delivered',  count: 20, suffix: '+', display: null },
+  { label: 'Technologies used',   count: 15, suffix: '+', display: null },
+  { label: 'Cups of coffee',      count: 0,  suffix: '',  display: '∞'  },
+];
+---
+
+<section id="about" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="reveal flex items-center gap-4 mb-14">
+      <span class="font-mono text-accent text-sm">01.</span>
+      <h2 class="text-2xl font-bold text-text">About Me</h2>
+      <div class="flex-1 h-px bg-[var(--color-border)]"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+
+      <!-- Code block card -->
+      <div class="reveal code-card rounded-xl overflow-hidden">
+        <!-- Window chrome -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-[var(--color-border)]">
+          <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+          <span class="ml-3 font-mono text-xs text-muted">Developer.cs</span>
+        </div>
+
+        <!-- Code content -->
+        <pre class="p-5 text-xs leading-6 font-mono overflow-x-auto"><code
+><span class="c-keyword">public class</span> <span class="c-type">Developer</span>
+<span class="c-brace">&#123;</span>
+    <span class="c-keyword">public string</span> <span class="c-prop">Name</span>       <span class="c-op">=&gt;</span> <span class="c-string">"Dimitris Meliopoulos"</span><span class="c-punct">;</span>
+    <span class="c-keyword">public string</span> <span class="c-prop">Role</span>       <span class="c-op">=&gt;</span> <span class="c-string">".NET Software Engineer"</span><span class="c-punct">;</span>
+    <span class="c-keyword">public string</span> <span class="c-prop">Location</span>   <span class="c-op">=&gt;</span> <span class="c-string">"Greece 🇬🇷"</span><span class="c-punct">;</span>
+    <span class="c-keyword">public bool</span>   <span class="c-prop">OpenToWork</span> <span class="c-op">=&gt;</span> <span class="c-literal">true</span><span class="c-punct">;</span>
+
+    <span class="c-keyword">public string</span><span class="c-punct">[]</span> <span class="c-prop">Passions</span> <span class="c-op">=&gt;</span> <span class="c-keyword">new</span><span class="c-punct">[]</span>
+    <span class="c-brace">&#123;</span>
+        <span class="c-string">"Clean Architecture"</span><span class="c-punct">,</span>
+        <span class="c-string">"Performance Optimization"</span><span class="c-punct">,</span>
+        <span class="c-string">"Developer Experience"</span><span class="c-punct">,</span>
+    <span class="c-brace">&#125;</span><span class="c-punct">;</span>
+
+    <span class="c-keyword">public string</span> <span class="c-method">GetMotivation</span><span class="c-punct">()</span> <span class="c-op">=&gt;</span>
+        <span class="c-string">"Building reliable, scalable software."</span><span class="c-punct">;</span>
+
+    <span class="c-keyword">public string</span><span class="c-punct">[]</span> <span class="c-prop">Hobbies</span> <span class="c-op">=&gt;</span> <span class="c-keyword">new</span><span class="c-punct">[]</span>
+    <span class="c-brace">&#123;</span>
+        <span class="c-string">"Basketball"</span><span class="c-punct">,</span>
+        <span class="c-string">"Padel"</span><span class="c-punct">,</span>
+        <span class="c-string">"Movies"</span><span class="c-punct">,</span>
+        <span class="c-string">"Games"</span><span class="c-punct">,</span>
+        <span class="c-string">"Trips"</span><span class="c-punct">,</span>
+    <span class="c-brace">&#125;</span><span class="c-punct">;</span>
+<span class="c-brace">&#125;</span>
+</code></pre>
+      </div>
+
+      <!-- Right column: brief text + stats -->
+      <div class="flex flex-col gap-6">
+        <div class="reveal space-y-4 text-muted leading-relaxed text-sm">
+          <p>
+            I'm a Senior Software Engineer based in Thessaloniki, Greece, with a background in
+            Electrical & Computer Engineering from the Technical University of Crete. I've spent
+            the last 6+ years designing, building and maintaining software systems across
+            enterprise and retail environments.
+          </p>
+          <p>
+            Currently at <span class="text-text">Chubb</span>, where I develop .NET applications
+            for insurance business processes. Before that, I spent four years at
+            <span class="text-text">Masoutis S.A.</span> building internal tools and services for
+            one of Greece's largest supermarket chains.
+          </p>
+          <p>
+            When I'm not writing code, you'll find me playing
+            <span class="text-text">basketball</span> or <span class="text-text">padel</span>,
+            watching <span class="text-text">movies</span>, diving into
+            <span class="text-text">games</span>, or planning my next
+            <span class="text-text">trip</span>.
+          </p>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="reveal grid grid-cols-2 gap-4">
+          {
+            facts.map(({ label, count, suffix, display }) => (
+              <div class="stat-card p-5 rounded-xl text-center">
+                {display ? (
+                  <p class="text-3xl font-bold text-accent mb-1">{display}</p>
+                ) : (
+                  <p
+                    class="count-up text-3xl font-bold text-accent mb-1"
+                    data-count={count}
+                    data-suffix={suffix}
+                  >
+                    0{suffix}
+                  </p>
+                )}
+                <p class="text-xs text-muted leading-snug">{label}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Code card ─────────────────────────────────────────── */
+  .code-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Syntax token colours */
+  .c-keyword { color: #c792ea; }           /* purple  */
+  .c-type    { color: var(--color-accent); }
+  .c-prop    { color: #82aaff; }           /* blue    */
+  .c-method  { color: #82aaff; }
+  .c-string  { color: #c3e88d; }           /* green   */
+  .c-literal { color: #f78c6c; }           /* orange  */
+  .c-comment { color: var(--color-muted); font-style: italic; }
+  .c-op      { color: #89ddff; }           /* cyan    */
+  .c-brace   { color: var(--color-text); }
+  .c-punct   { color: var(--color-muted); }
+
+  /* Light-mode token adjustments */
+  :root:not(.dark) .c-keyword { color: #7c3aed; }
+  :root:not(.dark) .c-prop    { color: #1d4ed8; }
+  :root:not(.dark) .c-method  { color: #1d4ed8; }
+  :root:not(.dark) .c-string  { color: #15803d; }
+  :root:not(.dark) .c-literal { color: #c2410c; }
+  :root:not(.dark) .c-op      { color: #0369a1; }
+
+  /* ── Stat cards ─────────────────────────────────────────── */
+  .stat-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.2s ease;
+  }
+  .stat-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.count-up').forEach((el) => {
+    const target = parseInt(el.dataset.count ?? '0', 10);
+    const suffix = el.dataset.suffix ?? '';
+
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      obs.disconnect();
+
+      const duration = 1200; // ms
+      const steps    = 40;
+      const interval = duration / steps;
+      let current    = 0;
+
+      const timer = setInterval(() => {
+        current = Math.min(current + Math.ceil(target / steps), target);
+        el.textContent = current + suffix;
+        if (current >= target) clearInterval(timer);
+      }, interval);
+    }, { threshold: 0.6 });
+
+    obs.observe(el);
+  });
+</script>

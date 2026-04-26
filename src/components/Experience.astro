@@ -1,0 +1,138 @@
+---
+const jobs = [
+  {
+    title:    '.NET Software Engineer',
+    company:  'Chubb',
+    url:      'https://www.chubb.com',
+    period:   'Sep 2023 — Present',
+    location: 'Thessaloniki, Greece',
+    bullets: [
+      'Develop and maintain enterprise .NET applications supporting insurance business processes.',
+      'Design and implement RESTful APIs and backend services consumed by internal and external clients.',
+      'Collaborate with cross-functional teams to deliver features aligned with business requirements.',
+      'Write clean, testable code following SOLID principles and Clean Architecture patterns.',
+    ],
+    stack: ['C#', '.NET', 'Azure', 'SQL Server', 'REST APIs'],
+  },
+  {
+    title:    'Software Engineer',
+    company:  'Masoutis S.A.',
+    url:      'https://www.masoutis.gr',
+    period:   'Aug 2019 — Aug 2023',
+    location: 'Thessaloniki, Greece',
+    bullets: [
+      'Built and maintained internal web applications supporting retail operations across the supermarket chain.',
+      'Developed backend services and APIs integrating with existing business and ERP systems.',
+      'Collaborated with business stakeholders to translate operational requirements into technical solutions.',
+      'Modernised legacy systems and introduced improved development practices over a 4-year tenure.',
+    ],
+    stack: ['C#', '.NET', 'SQL Server', 'Angular', 'Git'],
+  },
+  {
+    title:    'Business Data Analyst',
+    company:  'Masoutis S.A.',
+    url:      'https://www.masoutis.gr',
+    period:   'Jul 2019 — Aug 2019',
+    location: 'Thessaloniki, Greece',
+    bullets: [
+      'Analysed business data to produce actionable insights for operations and management.',
+      'Created reports and dashboards to support data-driven decision-making.',
+    ],
+    stack: ['SQL', 'Excel', 'Data Analysis'],
+  },
+];
+---
+
+<section id="experience" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="reveal flex items-center gap-4 mb-14">
+      <span class="font-mono text-accent text-sm">02.</span>
+      <h2 class="text-2xl font-bold text-text">Experience</h2>
+      <div class="flex-1 h-px bg-[var(--color-border)]"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative">
+      <!-- Vertical line (draws itself down on scroll) -->
+      <div id="timeline-line" class="hidden md:block absolute left-0 top-2 bottom-2 w-px bg-[var(--color-border)]"></div>
+
+      <div class="stagger-container space-y-12">
+        {
+          jobs.map((job, i) => (
+            <div class="reveal md:pl-10 relative">
+              <!-- Dot -->
+              <div class="hidden md:block absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-accent ring-4 ring-bg" />
+
+              <div class="job-card p-6 md:p-7 rounded-xl">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-1 mb-1">
+                  <div>
+                    <h3 class="text-text font-semibold text-base">{job.title}</h3>
+                    <a
+                      href={job.url}
+                      class="text-accent font-mono text-sm hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @ {job.company}
+                    </a>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <p class="font-mono text-xs text-muted">{job.period}</p>
+                    <p class="font-mono text-xs text-muted">{job.location}</p>
+                  </div>
+                </div>
+
+                <ul class="mt-4 space-y-2">
+                  {job.bullets.map((b) => (
+                    <li class="flex gap-3 text-sm text-muted">
+                      <span class="text-accent mt-0.5 shrink-0">▸</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="flex flex-wrap gap-2 mt-5">
+                  {job.stack.map((tech) => (
+                    <span class="px-2.5 py-1 text-xs font-mono rounded bg-[var(--color-border)] text-muted">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  var line = document.getElementById('timeline-line');
+  if (line) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { line.classList.add('drawn'); }
+    }, { threshold: 0.2 }).observe(line.parentElement!);
+  }
+</script>
+
+<style>
+  #timeline-line {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #timeline-line.drawn { transform: scaleY(1); }
+
+  .job-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .job-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
+    box-shadow: 0 4px 24px color-mix(in srgb, var(--color-accent) 5%, transparent);
+  }
+</style>

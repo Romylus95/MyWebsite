@@ -1,0 +1,31 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="py-8 px-6 border-t border-[var(--color-border)]">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+    <p class="font-mono text-xs text-muted text-center">
+      Designed &amp; Built by
+      <span class="text-accent">Dimitris Meliopoulos</span>
+    </p>
+
+    <p class="font-mono text-xs text-muted text-center">
+      © {year} · Built with
+      <a
+        href="https://astro.build"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-accent hover:underline"
+      >Astro</a>
+      &amp;
+      <a
+        href="https://tailwindcss.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-accent hover:underline"
+      >Tailwind CSS</a>
+    </p>
+
+  </div>
+</footer>

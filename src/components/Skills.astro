@@ -1,0 +1,85 @@
+---
+const categories = [
+  {
+    name: 'Languages',
+    icon: '{ }',
+    skills: ['C#', 'SQL', 'TypeScript', 'JavaScript', 'Python', 'Java', 'C'],
+  },
+  {
+    name: 'Frameworks & Libraries',
+    icon: '⬡',
+    skills: ['.NET Core / .NET 8', 'ASP.NET Web API', 'Entity Framework Core', 'Angular', 'Blazor', 'SignalR'],
+  },
+  {
+    name: 'Cloud & DevOps',
+    icon: '☁',
+    skills: ['Microsoft Azure', 'Azure DevOps', 'Docker', 'Kubernetes', 'GitHub Actions', 'CI/CD Pipelines'],
+  },
+  {
+    name: 'Data & Storage',
+    icon: '⬡',
+    skills: ['SQL Server', 'PostgreSQL', 'Redis', 'MongoDB', 'Azure Blob Storage'],
+  },
+  {
+    name: 'Architecture & Practices',
+    icon: '◈',
+    skills: ['Microservices', 'REST APIs', 'Clean Architecture', 'CQRS', 'Domain-Driven Design', 'Unit Testing'],
+  },
+  {
+    name: 'Tools',
+    icon: '⌘',
+    skills: ['Visual Studio', 'VS Code', 'Git', 'Postman', 'Swagger / OpenAPI', 'JIRA'],
+  },
+];
+---
+
+<section id="skills" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="reveal flex items-center gap-4 mb-14">
+      <span class="font-mono text-accent text-sm">03.</span>
+      <h2 class="text-2xl font-bold text-text">Skills</h2>
+      <div class="flex-1 h-px bg-[var(--color-border)]"></div>
+    </div>
+
+    <div class="stagger-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {
+        categories.map((cat) => (
+          <div class="reveal skill-card p-6 rounded-xl">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-mono text-accent text-base">{cat.icon}</span>
+              <h3 class="text-text font-semibold text-sm">{cat.name}</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {cat.skills.map((skill) => (
+                <span class="skill-pill px-2.5 py-1 text-xs font-mono rounded-md text-muted">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .skill-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .skill-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+    transform: translateY(-2px);
+  }
+  .skill-pill {
+    background-color: var(--color-border);
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+  .skill-card:hover .skill-pill {
+    color: var(--color-text);
+  }
+</style>

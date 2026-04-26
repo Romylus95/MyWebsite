@@ -1,0 +1,172 @@
+---
+import ThemeToggle from './ThemeToggle';
+
+const links = [
+  { label: 'About',      href: '#about',      section: 'about'      },
+  { label: 'Experience', href: '#experience', section: 'experience' },
+  { label: 'Skills',     href: '#skills',     section: 'skills'     },
+  { label: 'Projects',   href: '#projects',   section: 'projects'   },
+  { label: 'Contact',    href: '#contact',    section: 'contact'    },
+];
+---
+
+<header
+  id="nav"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+  <!-- Scroll progress bar -->
+  <div
+    id="scroll-progress"
+    class="absolute top-0 left-0 h-[2px] w-0 transition-none"
+    style="background: var(--color-accent); z-index: 10;"
+    aria-hidden="true"
+  ></div>
+
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <!-- Logo / name -->
+    <a
+      id="nav-logo"
+      href="#"
+      class="font-mono text-accent text-sm font-medium tracking-widest hover:opacity-80 transition-opacity"
+    >
+      DM<span class="animate-blink">_</span>
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden md:flex items-center gap-8">
+      {
+        links.map(({ label, href, section }, i) => (
+          <li>
+            <a
+              href={href}
+              data-section={section}
+              class="nav-link text-sm text-muted hover:text-accent transition-colors duration-200 font-mono"
+            >
+              <span class="text-accent mr-1 text-xs">0{i + 1}.</span>{label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Right side: Ctrl+K hint + theme toggle -->
+    <div class="flex items-center gap-3">
+      <button
+        id="cmd-palette-btn"
+        aria-label="Open command palette"
+        class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-md text-muted hover:text-accent transition-colors font-mono text-xs border border-[var(--color-border)] hover:border-accent"
+      >
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+        </svg>
+        <kbd class="opacity-70">K</kbd>
+      </button>
+
+      <ThemeToggle client:load />
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        aria-label="Toggle menu"
+        class="md:hidden text-muted hover:text-accent transition-colors p-1"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6"  x2="21" y2="6"  />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-[var(--color-border)] bg-surface px-6 py-4"
+  >
+    <ul class="flex flex-col gap-4">
+      {
+        links.map(({ label, href }, i) => (
+          <li>
+            <a
+              href={href}
+              class="mobile-link text-sm text-muted hover:text-accent transition-colors font-mono block py-1"
+            >
+              <span class="text-accent mr-2 text-xs">0{i + 1}.</span>{label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<script>
+  const nav          = document.getElementById('nav')!;
+  const progressBar  = document.getElementById('scroll-progress')!;
+  const navLinks     = document.querySelectorAll<HTMLAnchorElement>('[data-section]');
+
+  // ── Scroll: progress bar + nav background ───────────────────────────────
+  window.addEventListener('scroll', () => {
+    // Progress bar
+    const total    = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+    progressBar.style.width = `${progress}%`;
+
+    // Nav background blur
+    if (window.scrollY > 20) {
+      nav.classList.add('bg-bg/80', 'backdrop-blur-md', 'border-b', 'border-[var(--color-border)]');
+    } else {
+      nav.classList.remove('bg-bg/80', 'backdrop-blur-md', 'border-b', 'border-[var(--color-border)]');
+    }
+  });
+
+  // ── Active section highlight ─────────────────────────────────────────────
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          const isActive = link.dataset.section === entry.target.id;
+          link.classList.toggle('text-accent', isActive);
+          link.classList.toggle('text-muted',  !isActive);
+        });
+      });
+    },
+    {
+      threshold:  0.35,
+      rootMargin: '-60px 0px -35% 0px',
+    },
+  );
+
+  sections.forEach((s) => sectionObserver.observe(s));
+
+  // ── Ctrl+K button → open palette ────────────────────────────────────────
+  document.getElementById('cmd-palette-btn')?.addEventListener('click', () => {
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }));
+  });
+
+  // ── Logo 5× click → hacker mode ─────────────────────────────────────────
+  let logoClicks = 0;
+  let logoTimer: ReturnType<typeof setTimeout>;
+  document.getElementById('nav-logo')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    logoClicks++;
+    clearTimeout(logoTimer);
+    logoTimer = setTimeout(() => { logoClicks = 0; }, 1800);
+    if (logoClicks >= 5) {
+      logoClicks = 0;
+      window.dispatchEvent(new CustomEvent('hacker-mode'));
+    }
+  });
+
+  // ── Mobile menu toggle ───────────────────────────────────────────────────
+  const btn  = document.getElementById('mobile-menu-btn')!;
+  const menu = document.getElementById('mobile-menu')!;
+  btn.addEventListener('click',  () => menu.classList.toggle('hidden'));
+  menu.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', () => menu.classList.add('hidden'));
+  });
+</script>
