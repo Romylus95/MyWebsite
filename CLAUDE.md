@@ -107,10 +107,52 @@ Built as a React island with Framer Motion. Categories: Navigate, External, Down
 
 ---
 
+## Deployment
+
+| Item | Value |
+|---|---|
+| Domain | https://dmeliopoulos.dev |
+| Registrar | Cloudflare |
+| Hosting | Cloudflare Pages |
+| GitHub repo | https://github.com/Romylus95/MyWebsite.git |
+| Auto-deploy | Every push to `main` triggers a Cloudflare Pages build |
+
+---
+
+## Branch Strategy
+
+| Branch | Purpose |
+|---|---|
+| `main` | Production — live on dmeliopoulos.dev |
+| `feature/projects` | Projects section development (real projects replacing placeholder data) |
+
+Workflow: develop on feature branches → merge to `main` via PR → Cloudflare auto-deploys.
+
+---
+
+## Changes Made
+
+### About.astro
+- Hobbies added to `Passions` code card: Basketball, Padel, Movies, Games, Trips
+- `"Cloud & DevOps"` passion replaced with `"Performance Optimization"`
+- Prose paragraph updated with real hobbies
+
+### Hero.astro
+- `"cloud infrastructure"` replaced with `"API & system design"` in main intro
+- `"backend & cloud-native .NET development"` simplified to `"backend .NET development"` in stack card
+- `TypeScript` removed from tech stack pills
+- `SOAP APIs` added to tech stack pills
+- Hero CTA buttons changed from `flex-wrap` to `flex-col sm:flex-row` — fixes misalignment on mobile (iPhone 11 Pro tested)
+
+### Projects.astro (`main` branch)
+- Replaced with "Coming Soon" placeholder — real projects pending
+- Full original design (horizontal scroll, heatmap, cards) preserved on `feature/projects` branch
+
+---
+
 ## Still To Do
 
-- Replace lorem ipsum / placeholder text in **About.astro** (hobbies/interests section)
-- Add real project names, descriptions, and GitHub URLs in **Projects.astro**
+- Add real project names, descriptions, and GitHub URLs in **Projects.astro** (work on `feature/projects`)
 - Add a real photo to the name hover tooltip in **Hero.astro** (replace the `DM` avatar initials — see comment in `.name-avatar` CSS)
 
 ---
